@@ -127,12 +127,15 @@ class CardStack {
             currentX = clientX - startX;
             currentY = clientY - startY;
             
-            // Calculate rotation and opacity
-            const rotation = currentX * 0.1;
-            const opacity = Math.max(0.7, 1 - Math.abs(currentX) / 300);
+            // Calculate rotation and opacity with more dramatic effect
+            const rotation = currentX * 0.15; // Increased rotation for more visual feedback
+            const opacity = Math.max(0.6, 1 - Math.abs(currentX) / 250);
             
-            // Apply transform
-            card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotation}deg)`;
+            // Add slight downward movement when dragging horizontally
+            const gravityY = Math.abs(currentX) * 0.1; // Cards start falling as you drag
+            
+            // Apply transform with gravity effect
+            card.style.transform = `translate(${currentX}px, ${currentY + gravityY}px) rotate(${rotation}deg)`;
             card.style.opacity = opacity;
             
             // Show swipe indicators
@@ -149,7 +152,7 @@ class CardStack {
             document.removeEventListener('touchmove', onMove);
             document.removeEventListener('touchend', onEnd);
             
-            const threshold = 100;
+            const threshold = 80; // Reduced threshold for easier swiping
             card.style.zIndex = '';
             
             if (Math.abs(currentX) > threshold) {
@@ -195,16 +198,19 @@ class CardStack {
     }
 
     swipeCard(direction, card) {
-        const translateX = direction === 'right' ? '120vw' : '-120vw';
-        const rotation = direction === 'right' ? '30deg' : '-30deg';
+        const translateX = direction === 'right' ? '150vw' : '-150vw';
+        const translateY = '100vh'; // Cards fall down
+        const rotation = direction === 'right' ? '45deg' : '-45deg';
         
         // Add swipe class for CSS animation
         card.classList.add(`swiped-${direction}`);
         
-        card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        card.style.transform = `translateX(${translateX}) rotate(${rotation}) scale(0.8)`;
+        // Make the card fall down with gravity-like effect
+        card.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+        card.style.transform = `translate(${translateX}, ${translateY}) rotate(${rotation}) scale(0.7)`;
         card.style.opacity = '0';
-        card.style.filter = 'blur(2px)';
+        card.style.filter = 'blur(1px)';
+        card.style.zIndex = '-1';
         
         // Trigger celebration effect for right swipes
         if (direction === 'right') {
@@ -219,7 +225,7 @@ class CardStack {
             if (this.currentIndex >= this.images.length) {
                 this.showEmptyState();
             }
-        }, 600);
+        }, 800);
     }
 
     createMiniConfetti(card) {
@@ -254,13 +260,14 @@ class CardStack {
     }
 
     resetCard(card) {
-        card.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         card.style.transform = '';
         card.style.opacity = '1';
+        card.style.filter = '';
         
         setTimeout(() => {
             card.style.transition = '';
-        }, 300);
+        }, 400);
     }
 
     updateCardPositions() {
@@ -324,6 +331,7 @@ class CardStack {
 
     reset() {
         this.currentIndex = 0;
+        this.cards = []; // Clear the cards array
         this.init();
     }
 }
