@@ -10,6 +10,12 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    touch-action: manipulation; /* Better touch handling */
+    -webkit-overflow-scrolling: touch;
+    user-select: none; /* Prevent text selection */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .container {
@@ -270,6 +276,12 @@ body {
     border: 3px solid rgba(255, 255, 255, 0.9);
     will-change: transform, opacity;
     backdrop-filter: blur(20px);
+    user-select: none; /* Prevent text selection on mobile */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none; /* Better touch handling */
+    -webkit-touch-callout: none; /* Disable callout on iOS */
 }
 
 .aceternity-card:active {
@@ -286,6 +298,7 @@ body {
     height: 100%;
     border-radius: 17px;
     overflow: hidden;
+    pointer-events: none; /* Let parent handle all events */
 }
 
 .card-image {
@@ -294,6 +307,10 @@ body {
     object-fit: cover;
     border-radius: 17px;
     transition: transform 0.3s ease;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 .aceternity-card:hover .card-image {
@@ -459,6 +476,10 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
     position: relative;
     overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .control-button::before {
@@ -572,12 +593,20 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    min-height: 44px; /* Better touch target for mobile */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .reset-button:hover {
     background: rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.5);
     transform: scale(1.05);
+}
+
+.reset-button:active {
+    transform: scale(0.98);
 }
 
 @keyframes bounce {
@@ -659,24 +688,81 @@ body {
         height: 22px;
     }
     
-    .aceternity-card-stack {
-        width: 250px;
-        height: 350px;
+    .aceternity-card-stack,
+    .aceternity-main-container {
+        width: 280px;
+        height: 380px;
     }
     
+    .control-button {
+        width: 60px;
+        height: 60px;
+        font-size: 18px;
+    }
+    
+    .aceternity-controls {
+        bottom: -70px;
+        gap: 20px;
+    }
+    
+    /* Improved mobile touch targets */
+    .aceternity-card {
+        border-radius: 15px;
+    }
+    
+    .card-content {
+        border-radius: 12px;
+    }
+    
+    .card-image {
+        border-radius: 12px;
+    }
+    
+    /* Better swipe indicators for mobile */
+    .card-overlay .swipe-indicator {
+        padding: 6px 16px;
+        font-size: 14px;
+        border-radius: 20px;
+    }
+    
+    /* Disable hover effects on mobile */
+    .aceternity-card:hover {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .aceternity-card:hover .card-image {
+        transform: scale(1);
+    }
+    
+    .control-button:hover {
+        transform: scale(1);
+    }
+    
+    .control-button:hover::before {
+        transform: translateX(-100%);
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .aceternity-card-stack,
     .aceternity-main-container {
-        width: 250px;
-        height: 350px;
+        width: 260px;
+        height: 360px;
     }
     
     .control-button {
         width: 50px;
         height: 50px;
-        font-size: 20px;
+        font-size: 16px;
     }
     
     .aceternity-controls {
-        bottom: -70px;
         gap: 15px;
+    }
+    
+    .card-overlay .swipe-indicator {
+        padding: 4px 12px;
+        font-size: 12px;
     }
 }

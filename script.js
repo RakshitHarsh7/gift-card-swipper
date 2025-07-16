@@ -108,18 +108,21 @@ class CardStack {
             card.style.zIndex = '1000';
             initialTransform = card.style.transform;
             
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onEnd);
-            document.addEventListener('touchmove', onMove, { passive: false });
-            document.addEventListener('touchend', onEnd);
-            
+            // Prevent default to avoid scrolling on mobile
             e.preventDefault();
+            e.stopPropagation();
+            
+            document.addEventListener('mousemove', onMove, { passive: false });
+            document.addEventListener('mouseup', onEnd, { passive: false });
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('touchend', onEnd, { passive: false });
         };
 
         const onMove = (e) => {
             if (!isDragging) return;
             
             e.preventDefault();
+            e.stopPropagation();
             
             const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
@@ -142,9 +145,13 @@ class CardStack {
             this.updateSwipeIndicators(card, currentX);
         };
 
-        const onEnd = () => {
+        const onEnd = (e) => {
             if (!isDragging) return;
             isDragging = false;
+            
+            // Prevent default to avoid any unwanted behavior
+            e.preventDefault();
+            e.stopPropagation();
             
             // Remove event listeners
             document.removeEventListener('mousemove', onMove);
@@ -165,10 +172,15 @@ class CardStack {
         };
 
         // Mouse events
-        card.addEventListener('mousedown', onStart);
+        card.addEventListener('mousedown', onStart, { passive: false });
         
-        // Touch events
+        // Touch events - improved for mobile
         card.addEventListener('touchstart', onStart, { passive: false });
+        
+        // Prevent context menu on long press (mobile)
+        card.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
     }
 
     updateSwipeIndicators(card, x) {
@@ -310,10 +322,21 @@ class CardStack {
             <div class="empty-icon">🎉</div>
             <h3>All cards viewed!</h3>
             <p>Click reset to see them again</p>
-            <button class="reset-button" onclick="resetCardStack()">Reset Cards</button>
+            <button class="reset-button" id="resetButton">Reset Cards</button>
         `;
         
         this.container.appendChild(emptyState);
+        
+        // Add event listener to reset button with proper mobile support
+        const resetButton = emptyState.querySelector('#resetButton');
+        const handleReset = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetCardStack();
+        };
+        
+        resetButton.addEventListener('click', handleReset);
+        resetButton.addEventListener('touchend', handleReset);
         
         // Trigger show animation
         setTimeout(() => {
@@ -332,7 +355,14 @@ class CardStack {
     reset() {
         this.currentIndex = 0;
         this.cards = []; // Clear the cards array
-        this.init();
+        
+        // Clear the container completely
+        this.container.innerHTML = '';
+        
+        // Re-initialize with a small delay to ensure DOM is ready
+        setTimeout(() => {
+            this.init();
+        }, 100);
     }
 }
 
@@ -379,18 +409,40 @@ function showSwipeCards() {
     const controls = document.createElement('div');
     controls.className = 'aceternity-controls';
     controls.innerHTML = `
-        <button class="control-button reject" onclick="swipeCurrentCard('left')">
+        <button class="control-button reject" id="rejectButton">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
-        <button class="control-button like" onclick="swipeCurrentCard('right')">
+        <button class="control-button like" id="likeButton">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
         </button>
     `;
+    
+    // Add event listeners with better mobile support
+    const rejectBtn = controls.querySelector('#rejectButton');
+    const likeBtn = controls.querySelector('#likeButton');
+    
+    const handleReject = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        swipeCurrentCard('left');
+    };
+    
+    const handleLike = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        swipeCurrentCard('right');
+    };
+    
+    // Add both click and touch events for better mobile support
+    rejectBtn.addEventListener('click', handleReject);
+    rejectBtn.addEventListener('touchend', handleReject);
+    likeBtn.addEventListener('click', handleLike);
+    likeBtn.addEventListener('touchend', handleLike);
     
     // Clear container and add new elements
     imagesContainer.innerHTML = '';
