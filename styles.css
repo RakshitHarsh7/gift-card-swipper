@@ -1,0 +1,674 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* Background particles */
+.background-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.3"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.4"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.2"/><circle cx="90" cy="90" r="1" fill="white" opacity="0.5"/><circle cx="10" cy="60" r="1" fill="white" opacity="0.3"/></svg>') repeat;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+/* Main title */
+.main-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gift container */
+.gift-container {
+    position: relative;
+    cursor: pointer;
+    animation: bounceIn 1.5s ease-out 0.5s both;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Gift box */
+.gift-box {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transition: all 0.3s ease;
+}
+
+.gift-box:hover {
+    transform: scale(1.1);
+}
+
+/* Gift base */
+.gift-base {
+    width: 200px;
+    height: 150px;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Gift lid */
+.gift-lid {
+    width: 220px;
+    height: 60px;
+    background: linear-gradient(45deg, #ff7675, #fd79a8);
+    border-radius: 15px;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 2;
+}
+
+/* Ribbons */
+.ribbon-vertical {
+    position: absolute;
+    width: 30px;
+    height: 150px;
+    background: linear-gradient(to right, #ffd700, #ffed4e);
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ribbon-horizontal {
+    position: absolute;
+    width: 200px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ffd700, #ffed4e);
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Bow */
+.bow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 40px;
+}
+
+.bow-left,
+.bow-right {
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border-radius: 50% 10px 50% 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bow-left {
+    left: 0;
+    transform: rotate(-20deg);
+}
+
+.bow-right {
+    right: 0;
+    transform: rotate(20deg);
+}
+
+.bow-center {
+    position: absolute;
+    width: 15px;
+    height: 20px;
+    background: linear-gradient(45deg, #d63031, #e17055);
+    border-radius: 3px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Click hint */
+.click-hint {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    animation: pulse 2s infinite;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+/* Gift opened state */
+.gift-opened .gift-lid {
+    transform: translateY(-80px) rotateX(-45deg);
+    opacity: 0.8;
+}
+
+.gift-opened .click-hint {
+    opacity: 0;
+}
+
+/* Images container */
+.images-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.images-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Aceternity Card Stack Container */
+.aceternity-card-stack {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    perspective: 1000px;
+}
+
+.aceternity-main-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+/* Aceternity Card styling */
+.aceternity-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    cursor: grab;
+    transition: none;
+    transform-origin: center;
+    overflow: hidden;
+    background: white;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    will-change: transform, opacity;
+    backdrop-filter: blur(20px);
+}
+
+.aceternity-card:active {
+    cursor: grabbing;
+}
+
+.aceternity-card:hover {
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 17px;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 17px;
+    transition: transform 0.3s ease;
+}
+
+.aceternity-card:hover .card-image {
+    transform: scale(1.02);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Aceternity Card stacking effect */
+.aceternity-card:nth-child(1) {
+    z-index: 10;
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+}
+
+.aceternity-card:nth-child(2) {
+    z-index: 9;
+    transform: scale(0.95) translateY(10px);
+    opacity: 0.8;
+}
+
+.aceternity-card:nth-child(3) {
+    z-index: 8;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0.6;
+}
+
+.aceternity-card:nth-child(4) {
+    z-index: 7;
+    transform: scale(0.85) translateY(30px);
+    opacity: 0.4;
+}
+
+.aceternity-card:nth-child(n+5) {
+    z-index: 6;
+    transform: scale(0.8) translateY(40px);
+    opacity: 0.2;
+}
+
+/* Aceternity Card swipe animations */
+.aceternity-card.swiped-left {
+    animation: aceternitySwipeLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.aceternity-card.swiped-right {
+    animation: aceternitySwipeRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes aceternitySwipeLeft {
+    0% {
+        transform: translateX(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100vw) rotate(-30deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+@keyframes aceternitySwipeRight {
+    0% {
+        transform: translateX(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100vw) rotate(30deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Aceternity Card entrance animation */
+.aceternity-card.entering {
+    animation: aceternityCardEnter 0.5s ease-out forwards;
+}
+
+@keyframes aceternityCardEnter {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px) rotateY(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotateY(0deg);
+    }
+}
+
+/* Aceternity Swipe indicators */
+.card-overlay .swipe-indicator {
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 3px solid;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    text-shadow: none;
+}
+
+.card-overlay .swipe-indicator.left {
+    border-color: #fd5068;
+    color: #fd5068;
+    transform-origin: right center;
+}
+
+.card-overlay .swipe-indicator.right {
+    border-color: #42e776;
+    color: #42e776;
+    transform-origin: left center;
+}
+
+.card-overlay .swipe-indicator.active {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Aceternity Control buttons */
+.aceternity-controls {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+    z-index: 15;
+}
+
+.control-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.control-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.control-button:hover::before {
+    transform: translateX(100%);
+}
+
+.control-button:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.control-button:active {
+    transform: scale(0.95);
+}
+
+.control-button.reject {
+    background: linear-gradient(135deg, #ff3030, #ff6b6b);
+}
+
+.control-button.like {
+    background: linear-gradient(135deg, #4cd964, #55efc4);
+}
+
+.control-button svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Reset button */
+.reset-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.3s ease;
+    z-index: 15;
+}
+
+.reset-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+/* Aceternity Empty State */
+.aceternity-empty-state {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.aceternity-empty-state.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+.aceternity-empty-state h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.aceternity-empty-state p {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+.reset-button {
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.reset-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Confetti */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff6b6b;
+    animation: confettiFall 3s linear forwards;
+}
+
+.confetti:nth-child(2n) { background: #ffd700; }
+.confetti:nth-child(3n) { background: #74b9ff; }
+.confetti:nth-child(4n) { background: #55efc4; }
+.confetti:nth-child(5n) { background: #fd79a8; }
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .gift-box {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .gift-base {
+        width: 150px;
+        height: 112px;
+    }
+    
+    .gift-lid {
+        width: 165px;
+        height: 45px;
+    }
+    
+    .ribbon-vertical {
+        width: 22px;
+        height: 112px;
+    }
+    
+    .ribbon-horizontal {
+        width: 150px;
+        height: 22px;
+    }
+    
+    .aceternity-card-stack {
+        width: 250px;
+        height: 350px;
+    }
+    
+    .aceternity-main-container {
+        width: 250px;
+        height: 350px;
+    }
+    
+    .control-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .aceternity-controls {
+        bottom: -70px;
+        gap: 15px;
+    }
+}
