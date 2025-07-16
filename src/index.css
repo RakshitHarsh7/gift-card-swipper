@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for effects */
+/* Enhanced animations and effects */
 @keyframes confetti-fall {
   0% {
     transform: translateY(-100vh) rotate(0deg);
@@ -17,30 +17,80 @@
 @keyframes sparkle {
   0%, 100% {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0) rotate(0deg);
   }
   50% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
   }
 }
 
 .confetti-piece {
   position: fixed;
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   animation: confetti-fall linear forwards;
   z-index: 1000;
+  border-radius: 50%;
 }
 
 .sparkle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  border-radius: 50%;
   animation: sparkle 2s ease-in-out infinite;
-  box-shadow: 0 0 6px #fff;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
 }
 
 /* Custom utilities */
@@ -48,20 +98,25 @@
   perspective: 1000px;
 }
 
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  .confetti-piece {
-    width: 8px;
-    height: 8px;
-  }
-  
-  .sparkle {
-    width: 3px;
-    height: 3px;
-  }
+/* Enhanced glassmorphism effects */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Prevent text selection on mobile */
+/* Text selection styling */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+/* Prevent text selection on drag elements */
 * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -92,4 +147,91 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background: #0f0f23;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.7);
+}
+
+/* Button hover effects */
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.8);
+  outline-offset: 2px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .confetti-piece {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .sparkle {
+    font-size: 12px !important;
+  }
+  
+  /* Improved touch targets */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-blob,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bg-gradient-to-br {
+    background: #000 !important;
+  }
+  
+  .text-white\/80,
+  .text-white\/60 {
+    color: #fff !important;
+  }
+  
+  .border-white\/10 {
+    border-color: #fff !important;
+  }
 }
