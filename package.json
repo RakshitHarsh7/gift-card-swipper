@@ -1,0 +1,37 @@
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "description": "A beautiful, interactive gift box that reveals swipeable image cards with smooth Aceternity UI-style animations and effects.",
+  "main": "src/main.jsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RakshitHarsh7/gift-card-swipper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/RakshitHarsh7/gift-card-swipper/issues"
+  },
+  "homepage": "https://github.com/RakshitHarsh7/gift-card-swipper#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@vitejs/plugin-react": "^4.6.0",
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "motion": "^12.23.6",
+    "postcss": "^8.5.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.11",
+    "vite": "^7.0.4"
+  }
+}
